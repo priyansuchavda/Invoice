@@ -2,6 +2,7 @@
   "name": "16arena-invoice",
   "version": "1.0.0",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "start": "node --env-file=.env build.js && node server.js"
   }
 }
