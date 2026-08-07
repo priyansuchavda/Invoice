@@ -464,12 +464,13 @@
         /* Print Media CSS Overrides */
         @media print {
             @page {
-                margin: 10mm 15mm;
+                size: auto;
+                margin: 0;
             }
 
             body {
                 background-color: white;
-                padding: 0;
+                padding: 10mm 15mm;
                 margin: 0;
                 color: black;
             }
@@ -601,7 +602,7 @@
         <!-- Populated Invoice State (Initially Hidden) -->
         <div id="invoiceState" style="display: none;">
             <div class="logo-banner">
-                <img src="dark_logo.svg" alt="16 Arena Logo">
+                <img src="16arena-logo-dark.png" alt="16 Arena Logo">
             </div>
 
             <div class="meta-details">
@@ -687,7 +688,7 @@
 
             <div class="corp-info">
                 <div class="corp-title">
-                    <img src="dark_logo.svg" alt="16 Arena Logo Small">
+                    <img src="16arena-logo-dark.png" alt="16 Arena Logo Small">
                     <span>16 Arena Private Limited</span>
                 </div>
                 <div>Hustle Hub 1709, 19th Main, Sector 4, HSR Layout, Bengaluru, Karnataka - 560102.</div>

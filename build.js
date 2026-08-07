@@ -9,7 +9,7 @@ if (!fs.existsSync(publicPath)) {
 }
 
 // Copy assets
-const filesToCopy = ['dark_logo.svg', 'logo.png'];
+const filesToCopy = ['16arena-logo-dark.png'];
 for (const file of filesToCopy) {
   const src = path.join(__dirname, file);
   const dest = path.join(publicPath, file);
