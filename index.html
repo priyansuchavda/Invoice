@@ -218,7 +218,8 @@
         .item-details-table th.col-num, 
         .item-details-table td.col-num {
             text-align: right;
-            width: 60px;
+            padding-left: 12px;
+            white-space: nowrap;
         }
 
         /* Bill Details Block */
@@ -648,6 +649,7 @@
                     <tr>
                         <th>Item</th>
                         <th class="col-num">No.</th>
+                        <th class="col-num">Price</th>
                     </tr>
                 </thead>
                 <tbody id="itemsTableBody">
@@ -830,8 +832,9 @@
             itemsBody.innerHTML = '';
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>₹380.00 BGMI 325 UC Brand Card</td>
+                <td>BGMI - 325 UC</td>
                 <td class="col-num">x 1</td>
+                <td class="col-num">${formatInr(380.00)}</td>
             `;
             itemsBody.appendChild(tr);
 
@@ -992,10 +995,20 @@
                 if (order.products && order.products.length > 0) {
                     order.products.forEach(item => {
                         const tr = document.createElement('tr');
-                        const label = item.skuLabel || item.productName || 'Gift Card';
+                        const brand = (item.brandName || order.brandName || '').trim();
+                        let sku = (item.skuLabel || item.productName || 'Gift Card').trim();
+
+                        if (brand && sku.toLowerCase().startsWith(brand.toLowerCase())) {
+                            sku = sku.slice(brand.length).trim().replace(/^[-–—:]\s*/, '');
+                        }
+
+                        const itemDisplayName = brand && sku ? `${brand} - ${sku}` : (brand || sku);
+                        const itemPrice = item.totalPrice || item.price || (item.unitPrice ? item.unitPrice * (item.quantity || 1) : order.amount);
+
                         tr.innerHTML = `
-                            <td>${formatInr(item.unitPrice)} ${label}</td>
-                            <td class="col-num">x ${item.quantity}</td>
+                            <td>${itemDisplayName}</td>
+                            <td class="col-num">x ${item.quantity || 1}</td>
+                            <td class="col-num">${formatInr(itemPrice)}</td>
                         `;
                         itemsBody.appendChild(tr);
                     });
