@@ -682,7 +682,7 @@
                     <span id="totalPaidVal" class="bill-val">-</span>
                 </div>
                 <div class="bill-row" id="paymentMethodRow" style="font-size: 12px; margin-top: -6px; justify-content: flex-end;">
-                    <span id="paymentMethodVal">Via UPI</span>
+                    <span id="paymentMethodVal"></span>
                 </div>
             </div>
 
@@ -770,13 +770,13 @@
         }
 
         function paymentMethodLabel(method) {
-            if (!method) return 'UPI';
-            const norm = method.toLowerCase();
-            if (norm.includes('phonepe')) return 'PhonePe UPI';
-            if (norm.includes('upi')) return 'UPI';
-            if (norm.includes('razorpay')) return 'UPI';
-            if (norm.includes('wallet')) return 'Wallet';
-            return method.toUpperCase();
+            if (!method) return '';
+            const norm = method.trim().toLowerCase();
+            if (norm === 'razorpay') return 'Razorpay';
+            if (norm === 'phonepe') return 'PhonePe';
+            if (norm === 'upi') return 'UPI';
+            if (norm === 'wallet') return 'Wallet';
+            return method.charAt(0).toUpperCase() + method.slice(1);
         }
 
         // Copy Clipboard helper
@@ -961,8 +961,13 @@
                 document.getElementById('subtotalVal').innerText = formatInr(order.amount);
                 document.getElementById('totalPaidVal').innerText = formatInr(order.paidAmount);
                 
-                const methodLabel = paymentMethodLabel(order.paymentMethod);
-                document.getElementById('paymentMethodVal').innerText = `Via ${methodLabel} (${formatInr(order.paidAmount)})`;
+                if (order.paymentMethod) {
+                    const methodLabel = paymentMethodLabel(order.paymentMethod);
+                    document.getElementById('paymentMethodRow').style.display = 'flex';
+                    document.getElementById('paymentMethodVal').innerText = `Via ${methodLabel} (${formatInr(order.paidAmount)})`;
+                } else {
+                    document.getElementById('paymentMethodRow').style.display = 'none';
+                }
 
                 // Discounts mapping
                 if (order.coinsDiscount > 0) {
